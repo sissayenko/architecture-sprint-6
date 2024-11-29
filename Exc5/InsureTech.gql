@@ -1,0 +1,108 @@
+####### https://www.antvaset.com/graphql-validator #######
+
+type Client {
+	id: ID!
+	name: String
+	age: Int
+	documents: [Document]
+    filtered_documents(type: String!): [Document]
+	relatives: [Relative]
+    filtered_relatives(relationType: String!): [Relative]   
+}
+
+type Document {
+	id: ID!
+	type: String
+	number: String
+	issueDate: String
+	expiryDate: String
+}
+
+type Relative {
+	id: ID!
+	relationType: String
+	name: String
+	age: Int
+}
+
+type Query {
+	client(id: ID!): Client
+}
+
+
+####### Query examples #######
+# Brief client info
+query {
+	client(id: "alice") {
+		id
+		name
+		age
+	}
+}
+
+# Full client info
+query {
+	client(id: "alice") {
+		id
+		name
+		age
+		documents {
+			id
+			type
+			number
+			issueDate
+			expiryDate
+		}
+		relatives {
+			id
+			relationType
+			name
+			age
+		}
+	}
+}
+
+# Client info with documents
+query {
+	client(id: "alice") {
+		id
+		name
+		age
+		documents {
+			id
+			type
+			number
+			issueDate
+			expiryDate
+		}
+	}
+}
+
+# Client info with relatives
+query {
+	client(id: "alice") {
+		id
+		name
+		age
+		relatives {
+			id
+			relationType
+			name
+			age
+		}
+	}
+}
+
+# Client info with documents filtered by type
+query {
+	client(id: "alice") {
+		id
+		filtered_documents(type: "passport") {
+			id
+			type
+			number
+			issueDate
+			expiryDate
+		}
+	}
+}
